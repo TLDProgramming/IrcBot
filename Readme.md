@@ -1,5 +1,6 @@
 #IrcBot
 This is a simple irc bot that can output the subject of an email message to an irc channel
+its uses [PircBot] (http://www.jibble.org/pircbot.php, "PircBot")
 
 ##Usage
 You need a config.txt file in the same directory as the ircbot.jar file
