@@ -9,27 +9,29 @@ import java.util.Timer;
 
 public class MyBotMain {
 	static MyBot bot;
+	static String name ;
 	static int last = 0;
 	static File config = new File("config.txt");
 	static String server;
 	static int port;
 	static String username;
 	static String password;
+	static String ircserver;
+	static String channel;
 
 	public static void main(String[] args) throws Exception {
-
+		loadConfig();
 		// Now start our bot up.
-		bot = new MyBot();
+		bot = new MyBot(name);
 
 		// Enable debugging output.
 		bot.setVerbose(true);
 
 		// Connect to the IRC server.
-		bot.connect("irc.justin-wiblin.tk");
+		bot.connect(ircserver);
 
 		// Join the #pircbot channel.
-		bot.joinChannel("#general");
-		loadConfig();
+		bot.joinChannel(channel);
 
 		Timer timer = new Timer();
 		timer.schedule(new Task(), 1000, 60000);
@@ -51,6 +53,12 @@ public class MyBotMain {
 					username = line.split(":")[1].trim();
 				} else if (line.startsWith("Password:")) {
 					password = line.split(":")[1].trim();
+				} else if(line.startsWith("Nick:")){
+					name = line.split(":")[1].trim();
+				} else if(line.startsWith("IrcServer:")){
+					ircserver = line.split(":")[1].trim();
+				} else if(line.startsWith("Channel:")){
+					channel = line.split(":")[1].trim();
 				}
 			}
 			br.close();

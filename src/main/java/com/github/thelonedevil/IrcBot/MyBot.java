@@ -4,9 +4,15 @@ import org.jibble.pircbot.PircBot;
 
 public class MyBot extends PircBot {
 
-	public MyBot(){
-		this.setName("Bot1");
+	public MyBot(String name) {
+		this.setName(name);
 	}
-	
+
+	@Override
+	public void onMessage(String channel, String sender, String login, String hostname, String message) {
+		if (message.equalsIgnoreCase("!Stop")) {
+			System.exit(0);
+		}
+	}
 
 }
