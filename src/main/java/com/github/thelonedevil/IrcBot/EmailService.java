@@ -38,38 +38,27 @@ public class EmailService {
 	}
 
 	public ArrayList<String> connect(String username, String password) throws IOException {
-		System.out.print("Greeting message: ");
 		String response = readOneLine();
-		System.out.println(response);
-
 		// Username
 		output.println("USER " + username);
 		response = readOneLine();
-		System.out.println(response);
-
 		// Password
 		output.println("PASS " + password);
 		response = readOneLine();
-		System.out.println(response+ " default");
 		output.println("STAT");
-	
 		response = readOneLine();
-		System.out.println(response);
 		String[] messages = response.split(" ");
-		String message = messages[1]; 
-		System.out.println(message+" STAT");
+	    String message = messages[1]; 
 		int new1 = Integer.parseInt(message);
-		System.out.println(new1);
 		ArrayList<String> content = new ArrayList<String>();
 		while (MyBotMain.last < new1) {
 			output.println("RETR " + message);
 			while (!response.equals(".")) {
 				response = readOneLine();
-				System.out.println(response);
 				content.add(response);
 			}
 			MyBotMain.last = Integer.parseInt(message);
-			System.out.println(MyBotMain.last);
+
 			return content;
 		}return content;
 

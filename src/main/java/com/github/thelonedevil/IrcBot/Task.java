@@ -13,7 +13,6 @@ class Task extends TimerTask {
 		try{
 		String message = MyBotMain.getSubject();
 		if (message.contains("Subject:")) {
-			System.out.println(message);
 			bot.sendMessage(MyBotMain.channel, message);
 		}
 		}catch(IOException e){

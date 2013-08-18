@@ -73,7 +73,6 @@ public class MyBotMain {
 		String sub = null;
 		for (String s : message)
 			if (s.startsWith("Subject:")) {
-				System.out.println(s);
 				sub = s;
 			}
 		if (sub != null) {
