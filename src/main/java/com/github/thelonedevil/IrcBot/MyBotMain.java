@@ -89,7 +89,7 @@ public class MyBotMain {
 			} else if (s.startsWith("<p>Message")) {
 				bool = true;
 			} else if (bool) {
-				String message1 = s.replace("<p>", "").replace("</p>", "");;
+				String message1 = s.replace("<p>", "").replace("</p>", "");
 				messages.put("Message", message1);
 				bool = false;
 			}
@@ -105,5 +105,11 @@ public class MyBotMain {
 		} else {
 			return null;
 		}
+	}
+	
+	public static void shutdown(){
+		bot.partChannel(channel,"Among creatures born into chaos, a majority will imagine an order, a minority will question the order, and the rest will be pronounced insane. ");
+		bot.disconnect();
+		System.exit(0);
 	}
 }

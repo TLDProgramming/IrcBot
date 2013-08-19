@@ -11,7 +11,7 @@ public class MyBot extends PircBot {
 	@Override
 	public void onMessage(String channel, String sender, String login, String hostname, String message) {
 		if (message.equalsIgnoreCase("!Stop")) {
-			System.exit(0);
+			MyBotMain.shutdown();
 		}
 	}
 
