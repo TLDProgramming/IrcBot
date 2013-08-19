@@ -5,11 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 
 public class MyBotMain {
 	static MyBot bot;
-	static String name ;
+	static String name;
 	static int last = 0;
 	static File config = new File("config.txt");
 	static String server;
@@ -53,11 +54,11 @@ public class MyBotMain {
 					username = line.split(":")[1].trim();
 				} else if (line.startsWith("Password:")) {
 					password = line.split(":")[1].trim();
-				} else if(line.startsWith("Nick:")){
+				} else if (line.startsWith("Nick:")) {
 					name = line.split(":")[1].trim();
-				} else if(line.startsWith("IrcServer:")){
+				} else if (line.startsWith("IrcServer:")) {
 					ircserver = line.split(":")[1].trim();
-				} else if(line.startsWith("Channel:")){
+				} else if (line.startsWith("Channel:")) {
 					channel = line.split(":")[1].trim();
 				}
 			}
@@ -67,18 +68,42 @@ public class MyBotMain {
 		}
 	}
 
-	static String getSubject() throws IOException {
+	static HashMap<String, String> getMessages() throws IOException {
 		EmailService email = new EmailService(server, port);
 		ArrayList<String> message = email.connect(username, password);
-		String sub = null;
+		HashMap<String, String> messages = new HashMap<String, String>();
+		boolean bool = false;
 		for (String s : message)
 			if (s.startsWith("Subject:")) {
-				sub = s;
+				String subject = s.replace("Subject:", "");
+				messages.put("Subject", subject);
+			} else if (s.startsWith("<p>Build")) {
+				String build = s.split("=")[1].split(">")[0].replace("\"", "");
+				messages.put("Build", build);
+			} else if (s.startsWith("<p>Author")) {
+				String author = s.split(":")[1].replace("</p>", "");
+				messages.put("Author", author);
+			} else if (s.startsWith("<p>Branch")) {
+				String branch = s.split(":")[1].replace("</p>", "");
+				messages.put("Branch", branch);
+			} else if (s.startsWith("<p>Message")) {
+				bool = true;
+			} else if (bool) {
+				String message1 = s.replace("<p>", "").replace("</p>", "");;
+				messages.put("Message", message1);
+				bool = false;
 			}
-		if (sub != null) {
-			return sub;
+
+		/*
+		 * <p>Author : Justin Wiblin</p>
+		 * <p>Branch : master</p>
+		 * <p>Message:</p>
+		 * <p>added missing overrides annotations</p>
+		 */
+		if (!messages.isEmpty()) {
+			return messages;
 		} else {
-			return "null";
+			return null;
 		}
 	}
 }

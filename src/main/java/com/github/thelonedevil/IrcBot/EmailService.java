@@ -55,6 +55,7 @@ public class EmailService {
 			output.println("RETR " + message);
 			while (!response.equals(".")) {
 				response = readOneLine();
+				//System.out.println(response);
 				content.add(response);
 			}
 			MyBotMain.last = Integer.parseInt(message);
